@@ -4,7 +4,7 @@
 	"path": "Software",
 	
 	"version": "1.1",
-	"description": "",
+	"description": "Allow you to control Ligic-Pro with chataigne",
 	"url":"https://github.com/ziginfo/LogicPro-Chataigne-Module.git",
 	"downloadURL": "https://github.com/ziginfo/LogicPro-Chataigne-Module/archive/refs/heads/main.zip",
 	
