@@ -3,7 +3,7 @@
 	"type": "OSC",
 	"path": "Software",
 	
-	"version": "1.1",
+	"version": "1.2",
 	"description": "Allow you to control Ligic-Pro with chataigne",
 	"url":"https://github.com/ziginfo/LogicPro-Chataigne-Module.git",
 	"downloadURL": "https://github.com/ziginfo/LogicPro-Chataigne-Module/archive/refs/heads/main.zip",
@@ -37,6 +37,9 @@
 	"scripts": ["logic.js"],
 	
 	"values": {
+	"Selected Track":{
+			"type":"Container",
+			"collapsed":true }	
 	},
 	
 	
@@ -185,6 +188,16 @@
 		"Bank next" : {
 			"menu" : "TrackActions",
 			"callback" : "bank_next"
+			},
+			
+		"Track back" : {
+			"menu" : "TrackActions",
+			"callback" : "track_back"
+			},
+			
+		"Track next" : {
+			"menu" : "TrackActions",
+			"callback" : "track_next"
 			}
 
 
