@@ -5,8 +5,8 @@
 	
 	"version": "1.1",
 	"description": "",
-	"url":"",
-	"downloadURL": "",
+	"url":"https://github.com/ziginfo/LogicPro-Chataigne-Module.git",
+	"downloadURL": "https://github.com/ziginfo/LogicPro-Chataigne-Module/archive/refs/heads/main.zip",
 	
 	"hasInput": true,
 	"hasOutput": true, 
