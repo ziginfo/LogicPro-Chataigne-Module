@@ -8,8 +8,9 @@ function init() {
 //Names Container >>>>>>>>>>>>>>>>>>>>>>		
 	names=local.values.addContainer("Names");
 		names.setCollapsed(true);
-		names.addTrigger("Sync Names", "Get Names from the Console" , false);
 		names.addStringParameter("First Track No", "", "");	
+		names.addTrigger("Back", "Get Names from the Console" , false);		
+		names.addTrigger("Forward", "Get Names from the Console" , false);
 		for (var n = 1; n < 9; n++) {
 			names.addStringParameter("Track"+n, "", ""); }
 }
@@ -21,8 +22,11 @@ function moduleParameterChanged(param) {
 
 function moduleValueChanged(value) {
   
-  if (value.name == "syncNames"){
-  local.send("/1/trackname1");
+  if (value.name == "forward"){
+  local.send("/1/bank+");
+  }
+  if (value.name == "back"){
+  local.send("/1/bank-");
   }
 }
 
@@ -127,12 +131,12 @@ function forward()
 
 function bank_back()
 {
-	local.send("/1/bank-", 1.0);
+	local.send("/1/bank-");
 }
 
 function bank_next()
 {
-	local.send("/1/bank+", 1.0);
+	local.send("/1/bank+");
 }
 
 
