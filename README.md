@@ -5,6 +5,6 @@ The OSC-Remote-Port should be 7000; the Local Port for feedback from LogicPro ca
 
 This module uses the Touch-OSC handling to connect to Logic-Pro; and so all the known OSC commands from its  Templater (LogicPad) will work fine and instantly !!  
 To see all these possible OSC-Messages : In Logic Pro just go to the LogicPro -> MainMenu -> ControlSurfaces -> Assigning Controllers -> Pages (in the left column) .... and you'll see all the OSC-Commands already implemented ! And if you want, you can create also your own Custom Messages in the osc-message-paths section (first define new : Zone, Mode and Commande, etc)    
-https://support.apple.com/guide/logicpro/osc-message-paths-ctlsf67f4bdc/mac
+[...learn more about this ](https://support.apple.com/guide/logicpro/osc-message-paths-ctlsf67f4bdc/mac)
 
 Have Fun....
