@@ -17,7 +17,7 @@
 	"defaults": {
 	
 		"OSC Input": {
-			"localPort" : 9000, },
+			"localPort" : 9000 },
 			
 		"OSC Outputs": {
 			"OSC Output": {
