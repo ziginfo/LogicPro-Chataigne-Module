@@ -1,6 +1,39 @@
 // ========================== VARS ===========================
 
 var selTrack = {
+	"trackno"	:	["TrackNo", "s", "/3/track#", ""],
+	"name"	:	["Label", "s", "/3/trackname", ""],
+	"fader" : ["Volume", "s","/3/trkvolval", ""],
+	"pan" : ["Pan", "s","/3/trkpanval", ""],
+	"mute" : ["Mute", "b","/3/mute", ""],
+	"solo" : ["Solo", "b","/3/solo", ""],
+	"arm" : ["R Arm", "b","/3/recenable", ""],
+	
+	"sendname1" : ["SendName1", "s","/3/sendname1", ""],
+	"sendlevel1" : ["SendLevel1", "f","/3/sendlevel1", ""],
+	"sendval1" : ["SendVal1", "s","/3/sendval1", ""],
+	"sendname2" : ["SendName2", "s","/3/sendname2", ""],
+	"sendlevel2" : ["SendLevel2", "f","/3/sendlevel2", ""],
+	"sendval2" : ["SendVal2", "s","/3/sendval2", ""],
+	"sendname3" : ["SendName3", "s","/3/sendname3", ""],
+	"sendlevel3" : ["SendLevel3", "f","/3/sendlevel3", ""],
+	"sendval3" : ["SendVal3", "s","/3/sendval3", ""],
+	"sendname4" : ["SendName4", "s","/3/sendname4", ""],
+	"sendlevel4" : ["SendLevel4", "f","/3/sendlevel4", ""],
+	"sendval4" : ["SendVal4", "s","/3/sendval4", ""],
+	"sendname5" : ["SendName5", "s","/3/sendname5", ""],
+	"sendlevel5" : ["SendLevel5", "f","/3/sendlevel5", ""],
+	"sendval5" : ["SendVal5", "s","/3/sendval5", ""],
+	"insert1" : ["Insert1", "s","/3/insertname1", ""],
+	"insert2" : ["Insert2", "s","/3/insertname2", ""],
+	"insert3" : ["Insert3", "s","/3/insertname3", ""],
+	"insert4" : ["Insert4", "s","/3/insertname4", ""],
+	"insert5" : ["Insert5", "s","/3/insertname5", ""],
+	"insert6" : ["Insert6", "s","/3/insertname6", ""],
+	"insert7" : ["Insert7", "s","/3/insertname7", ""],
+	"insert8" : ["Insert8", "s","/3/insertname8", ""] };
+	
+var selTrackFull = {
 	"trackno"	:	["TrackNo", "s", "/4/track#", ""],
 	"name"	:	["Label", "s", "/4/trackname", ""],
 	"fader" : ["Volume", "s","/3/trkvolval", ""],
@@ -56,10 +89,7 @@ var selTrack = {
 	"insert5" : ["Insert5", "s","/3/insertname5", ""],
 	"insert6" : ["Insert6", "s","/3/insertname6", ""],
 	"insert7" : ["Insert7", "s","/3/insertname7", ""],
-	"insert8" : ["Insert8", "s","/3/insertname8", ""]
-	
-	
-	};
+	"insert8" : ["Insert8", "s","/3/insertname8", ""] };
 
 
 //====================================================================
@@ -72,32 +102,56 @@ function init() {
 //===================== NAMES CONTAINER ===================		
 	names=local.values.addContainer("Names");
 		names.setCollapsed(true);
-		names.addStringParameter("First Track No", "", "");	
+		names.addStringParameter("First BankTrack No", "", "");	
 		names.addTrigger("Bank back", "Get Names from the Console" , false);		
 		names.addTrigger("Bank next", "Get Names from the Console" , false);
 		for (var n = 1; n < 9; n++) {
 			names.addStringParameter("Track"+n, "", ""); }
 			
-//==========================SELECTED TRACK============================	
+//==========================SELECTED TRACK FULL ============================	
 	selchan = local.values.addContainer("SelectedTrack");
 		selchan.setCollapsed(true);
 		selchan.addTrigger("Reset all", "" , false);
 		selchan.addTrigger("Bank back", "Get Names from the Console" , false);		
 		selchan.addTrigger("Bank next", "Get Names from the Console" , false);
-		selchan.addStringParameter("First Track No", "", "");
+		selchan.addStringParameter("First BankTrack No", "", "");
 		selchan.addIntParameter("Relative Track No","Select the Channel Number",1,1,8) ;
 		selchan.addTrigger("Click to Sync", "" , false);
+		var champs = util.getObjectProperties(selTrackFull);
+		for (var n = 0; n < champs.length; n++) {
+			if (selTrackFull[champs[n]][1] == "f") {
+			selchan.addFloatParameter(selTrackFull[champs[n]][0], "", 0); }
+			else if (selTrackFull[champs[n]][1] == "b") {
+			selchan.addBoolParameter(selTrackFull[champs[n]][0], "", false); }
+			else if (selTrackFull[champs[n]][1] == "in") {
+			selchan.addIntParameter(selTrackFull[champs[n]][0], "", 0); } 
+			else if (selTrackFull[champs[n]][1] == "s") {
+			selchan.addStringParameter(selTrackFull[champs[n]][0], "", ""); } }
+			selchan.addTrigger("Sync Inserts", "" , false);	
+			
+	//========================== TRACK PARAMETERS PAGE 3 ============================	
+	seltr = local.values.addContainer("TrackParams");
+		seltr.setCollapsed(true);
+		seltr.addTrigger("Bank back", "Get Names from the Console" , false);		
+		seltr.addTrigger("Bank next", "Get Names from the Console" , false);
+		seltr.addStringParameter("First BankTrack No", "", "");
+		seltr.addTrigger("Track back", "Get Names from the Console" , false);		
+		seltr.addTrigger("Track next", "Get Names from the Console" , false);
+		
+//		seltr.addIntParameter("Relative Track No","Select the Channel Number",1,1,8) ;
+//		seltr.addTrigger("Sync Params", "" , false);
+		
 		var champs = util.getObjectProperties(selTrack);
 		for (var n = 0; n < champs.length; n++) {
 			if (selTrack[champs[n]][1] == "f") {
-			selchan.addFloatParameter(selTrack[champs[n]][0], "", 0); }
+			seltr.addFloatParameter(selTrack[champs[n]][0], "", 0 , 0, 1); }
 			else if (selTrack[champs[n]][1] == "b") {
-			selchan.addBoolParameter(selTrack[champs[n]][0], "", false); }
+			seltr.addBoolParameter(selTrack[champs[n]][0], "", false); }
 			else if (selTrack[champs[n]][1] == "in") {
-			selchan.addIntParameter(selTrack[champs[n]][0], "", 0); } 
+			seltr.addIntParameter(selTrack[champs[n]][0], "", 0); } 
 			else if (selTrack[champs[n]][1] == "s") {
-			selchan.addStringParameter(selTrack[champs[n]][0], "", ""); } }
-			selchan.addTrigger("Sync Inserts", "" , false);	
+			seltr.addStringParameter(selTrack[champs[n]][0], "", ""); } }
+			seltr.addTrigger("Sync Inserts", "" , false);
 			
 }
 
@@ -120,22 +174,24 @@ function moduleValueChanged(value) {
   local.send("/1/bank+"); }
   
   if (value.name == "clickToSync"){
-  var no=local.values.selectedTrack.relativeTrackNo.get();
-  
+  var no=local.values.selectedTrack.relativeTrackNo.get(); 
   local.send("/1/select/1/"+no);
   local.send("/3");
   local.send("/4");    }
   
   if (value.name == "trackBack"){
-  local.send("/4/track-");  }
-   if (value.name == "trackNext"){  
-  local.send("/4/track+"); }
+  local.send("/3");
+  local.send("/3/track-");  }
+   if (value.name == "trackNext"){
+   local.send("/3");  
+  local.send("/3/track+"); }
+  
   if (value.name == "syncInserts"){
   local.send("/3"); }
   if (value.name == "resetAll"){  
-  var champs = util.getObjectProperties(selTrack);
+  var champs = util.getObjectProperties(selTrackFull);
 	for (var n = 0; n < champs.length; n++) {
-	var child = selTrack[champs[n]][0].split(" ").join("");	
+	var child = selTrackFull[champs[n]][0].split(" ").join("");	
 	local.values.selectedTrack.getChild(child).set("");}   
 	
   }
@@ -151,7 +207,7 @@ function oscEvent(address, args) {
 
 //=============== TRACKNAMES ==================
 	if (address == "/1/track#1"){
-		local.values.names.firstTrackNo.set(args[0]); }
+		local.values.names.firstBankTrackNo.set(args[0]); }
 	for (var n = 1; n < 9; n++) {
 		var addr = "/1/trackname"+n;	
 		if (address == addr){
@@ -170,15 +226,27 @@ function oscEvent(address, args) {
 */
 
 //====================SELECTED CHANNEL ================
-	var first = local.values.names.firstTrackNo.get();
-	local.values.selectedTrack.firstTrackNo.set(first);
+	var first = local.values.names.firstBankTrackNo.get();
+	local.values.selectedTrack.firstBankTrackNo.set(first);
+	var champs = util.getObjectProperties(selTrackFull);
+	for (var n = 0; n < champs.length; n++) {
+	var addr = selTrackFull[champs[n]][2];
+	var child = selTrackFull[champs[n]][0].split(" ").join("");
+	var val = args[0];
+	if (address == addr){
+	local.values.selectedTrack.getChild(child).set(val);}   
+	}
+	
+//====================TRACK PARAMETERS ================
+	var first = local.values.names.firstBankTrackNo.get();
+	local.values.trackParams.firstBankTrackNo.set(first);
 	var champs = util.getObjectProperties(selTrack);
 	for (var n = 0; n < champs.length; n++) {
 	var addr = selTrack[champs[n]][2];
 	var child = selTrack[champs[n]][0].split(" ").join("");
 	var val = args[0];
 	if (address == addr){
-	local.values.selectedTrack.getChild(child).set(val);}   
+	local.values.trackParams.getChild(child).set(val);}   
 	}
 
 }
