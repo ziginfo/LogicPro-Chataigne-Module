@@ -46,6 +46,9 @@ var selTrack = {
 	"lpf.on" : ["HiCut on", "b","/4/eqbandbyp/1/8" , ""],
 	"lpf.freq" : ["HiCut Freq", "s","/4/lpffrqval", ""],
 	"lpf.slope" : ["HiCut Slope", "s","/4/lpfslpval", ""],
+	
+	"eq.master.gain" : ["EQ Master Gain", "s", "/4/eqmstgainval", ""],
+	
 	"insert1" : ["Insert1", "s","/3/insertname1", ""],
 	"insert2" : ["Insert2", "s","/3/insertname2", ""],
 	"insert3" : ["Insert3", "s","/3/insertname3", ""],
@@ -66,7 +69,7 @@ var selTrack = {
 function init() {
   script.log("Custom module init");
   
-//Names Container >>>>>>>>>>>>>>>>>>>>>>		
+//===================== NAMES CONTAINER ===================		
 	names=local.values.addContainer("Names");
 		names.setCollapsed(true);
 		names.addStringParameter("First Track No", "", "");	
@@ -76,13 +79,14 @@ function init() {
 			names.addStringParameter("Track"+n, "", ""); }
 			
 //==========================SELECTED TRACK============================	
-	selchan = local.values.selectedTrack;
+	selchan = local.values.addContainer("SelectedTrack");
 		selchan.setCollapsed(true);
-		
-		selchan.addTrigger("Sync", "" , false);
 		selchan.addTrigger("Reset all", "" , false);
-		selchan.addTrigger("Track back", "" , false);
-		selchan.addTrigger("Track next", "" , false);
+		selchan.addTrigger("Bank back", "Get Names from the Console" , false);		
+		selchan.addTrigger("Bank next", "Get Names from the Console" , false);
+		selchan.addStringParameter("First Track No", "", "");
+		selchan.addIntParameter("Relative Track No","Select the Channel Number",1,1,8) ;
+		selchan.addTrigger("Click to Sync", "" , false);
 		var champs = util.getObjectProperties(selTrack);
 		for (var n = 0; n < champs.length; n++) {
 			if (selTrack[champs[n]][1] == "f") {
@@ -109,17 +113,25 @@ function moduleParameterChanged(param) {
 function moduleValueChanged(value) {
   
   if (value.name == "bankBack"){
-  local.send("/1/bank-"); }
+  local.send("/1/bank-"); 
+  local.send("/1");}
   if (value.name == "bankNext"){
+  local.send("/1");
   local.send("/1/bank+"); }
+  
+  if (value.name == "clickToSync"){
+  var no=local.values.selectedTrack.relativeTrackNo.get();
+  
+  local.send("/1/select/1/"+no);
+  local.send("/3");
+  local.send("/4");    }
+  
   if (value.name == "trackBack"){
   local.send("/4/track-");  }
-  if (value.name == "sync"){
-  local.send("/4"); }
+   if (value.name == "trackNext"){  
+  local.send("/4/track+"); }
   if (value.name == "syncInserts"){
   local.send("/3"); }
-  if (value.name == "trackNext"){
-  local.send("/4/track+"); }
   if (value.name == "resetAll"){  
   var champs = util.getObjectProperties(selTrack);
 	for (var n = 0; n < champs.length; n++) {
@@ -158,6 +170,8 @@ function oscEvent(address, args) {
 */
 
 //====================SELECTED CHANNEL ================
+	var first = local.values.names.firstTrackNo.get();
+	local.values.selectedTrack.firstTrackNo.set(first);
 	var champs = util.getObjectProperties(selTrack);
 	for (var n = 0; n < champs.length; n++) {
 	var addr = selTrack[champs[n]][2];

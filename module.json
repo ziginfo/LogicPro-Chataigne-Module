@@ -3,7 +3,7 @@
 	"type": "OSC",
 	"path": "Software",
 	
-	"version": "1.2",
+	"version": "1.2.2",
 	"description": "Allow you to control Ligic-Pro with chataigne",
 	"url":"https://github.com/ziginfo/LogicPro-Chataigne-Module.git",
 	"downloadURL": "https://github.com/ziginfo/LogicPro-Chataigne-Module/archive/refs/heads/main.zip",
@@ -36,11 +36,7 @@
 	
 	"scripts": ["logic.js"],
 	
-	"values": {
-	"Selected Track":{
-			"type":"Container",
-			"collapsed":true }	
-	},
+	"values": { },
 	
 	
 	
